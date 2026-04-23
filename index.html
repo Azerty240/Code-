@@ -1,0 +1,954 @@
+<!DOCTYPE html>
+
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Permis de Conduire — Questions & Réponses</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0e0e10;
+    --surface: #16161a;
+    --card: #1c1c22;
+    --border: #2a2a35;
+    --accent: #f0c040;
+    --accent2: #4fd1c5;
+    --accent3: #f87171;
+    --text: #e8e8ef;
+    --muted: #888899;
+    --ext-color: #f0c040;
+    --int-color: #4fd1c5;
+    --hood-color: #a78bfa;
+  }
+
+- { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+background: var(–bg);
+color: var(–text);
+font-family: ‘DM Sans’, sans-serif;
+font-size: 15px;
+line-height: 1.6;
+padding: 0 0 60px 0;
+}
+
+/* HERO */
+.hero {
+background: linear-gradient(135deg, #0e0e10 0%, #1a1a28 50%, #0e0e10 100%);
+border-bottom: 1px solid var(–border);
+padding: 48px 24px 40px;
+text-align: center;
+position: relative;
+overflow: hidden;
+}
+.hero::before {
+content: ‘’;
+position: absolute;
+top: -60px; left: 50%; transform: translateX(-50%);
+width: 400px; height: 200px;
+background: radial-gradient(ellipse, rgba(240,192,64,0.12) 0%, transparent 70%);
+pointer-events: none;
+}
+.hero-badge {
+display: inline-block;
+background: rgba(240,192,64,0.12);
+border: 1px solid rgba(240,192,64,0.3);
+color: var(–accent);
+font-family: ‘Syne’, sans-serif;
+font-size: 11px;
+font-weight: 700;
+letter-spacing: 0.15em;
+text-transform: uppercase;
+padding: 5px 14px;
+border-radius: 99px;
+margin-bottom: 18px;
+}
+.hero h1 {
+font-family: ‘Syne’, sans-serif;
+font-size: clamp(26px, 6vw, 42px);
+font-weight: 800;
+line-height: 1.1;
+letter-spacing: -0.02em;
+margin-bottom: 12px;
+}
+.hero h1 span { color: var(–accent); }
+.hero p {
+color: var(–muted);
+font-size: 14px;
+max-width: 420px;
+margin: 0 auto 28px;
+}
+
+/* STATS BAR */
+.stats {
+display: flex;
+justify-content: center;
+gap: 32px;
+flex-wrap: wrap;
+}
+.stat {
+text-align: center;
+}
+.stat-num {
+font-family: ‘Syne’, sans-serif;
+font-size: 28px;
+font-weight: 800;
+color: var(–accent);
+display: block;
+}
+.stat-label {
+font-size: 11px;
+color: var(–muted);
+text-transform: uppercase;
+letter-spacing: 0.1em;
+}
+
+/* FILTER TABS */
+.filter-wrap {
+display: flex;
+gap: 8px;
+padding: 24px 16px 8px;
+overflow-x: auto;
+scrollbar-width: none;
+justify-content: center;
+flex-wrap: wrap;
+}
+.filter-btn {
+display: flex;
+align-items: center;
+gap: 6px;
+padding: 8px 16px;
+border-radius: 99px;
+border: 1px solid var(–border);
+background: var(–card);
+color: var(–muted);
+font-family: ‘DM Sans’, sans-serif;
+font-size: 13px;
+font-weight: 500;
+cursor: pointer;
+transition: all 0.2s;
+white-space: nowrap;
+}
+.filter-btn:hover { border-color: var(–accent); color: var(–text); }
+.filter-btn.active {
+background: var(–accent);
+border-color: var(–accent);
+color: #0e0e10;
+font-weight: 700;
+}
+.filter-btn .dot {
+width: 8px; height: 8px;
+border-radius: 50%;
+display: inline-block;
+}
+
+/* MAIN CONTENT */
+.container { max-width: 720px; margin: 0 auto; padding: 0 16px; }
+
+/* CATEGORY HEADER */
+.cat-header {
+display: flex;
+align-items: center;
+gap: 12px;
+margin: 32px 0 16px;
+padding-bottom: 12px;
+border-bottom: 1px solid var(–border);
+}
+.cat-icon {
+width: 36px; height: 36px;
+border-radius: 10px;
+display: flex; align-items: center; justify-content: center;
+font-size: 18px;
+flex-shrink: 0;
+}
+.cat-icon.ext { background: rgba(240,192,64,0.12); }
+.cat-icon.hood { background: rgba(167,139,250,0.12); }
+.cat-icon.int { background: rgba(79,209,197,0.12); }
+.cat-title {
+font-family: ‘Syne’, sans-serif;
+font-size: 17px;
+font-weight: 700;
+}
+.cat-title.ext { color: var(–ext-color); }
+.cat-title.hood { color: var(–hood-color); }
+.cat-title.int { color: var(–int-color); }
+.cat-count {
+margin-left: auto;
+font-size: 12px;
+color: var(–muted);
+background: var(–surface);
+padding: 3px 10px;
+border-radius: 99px;
+border: 1px solid var(–border);
+}
+
+/* QUESTION CARD */
+.q-card {
+background: var(–card);
+border: 1px solid var(–border);
+border-radius: 14px;
+margin-bottom: 10px;
+overflow: hidden;
+transition: border-color 0.2s;
+}
+.q-card:hover { border-color: #3a3a50; }
+.q-card.open { border-color: #3a3a55; }
+
+.q-header {
+display: flex;
+align-items: center;
+gap: 12px;
+padding: 14px 16px;
+cursor: pointer;
+user-select: none;
+}
+.q-num {
+font-family: ‘Syne’, sans-serif;
+font-size: 11px;
+font-weight: 700;
+color: var(–muted);
+min-width: 28px;
+}
+.q-text {
+flex: 1;
+font-size: 14px;
+font-weight: 500;
+color: var(–text);
+line-height: 1.4;
+}
+.q-chevron {
+color: var(–muted);
+font-size: 16px;
+transition: transform 0.25s;
+flex-shrink: 0;
+}
+.q-card.open .q-chevron { transform: rotate(180deg); }
+
+/* ANSWER */
+.q-answer {
+display: none;
+padding: 0 16px 16px 56px;
+border-top: 1px solid var(–border);
+padding-top: 14px;
+}
+.q-card.open .q-answer { display: block; }
+
+.answer-intro {
+font-size: 13px;
+color: var(–muted);
+margin-bottom: 10px;
+font-style: italic;
+}
+
+.steps {
+list-style: none;
+display: flex;
+flex-direction: column;
+gap: 7px;
+}
+.steps li {
+display: flex;
+gap: 10px;
+font-size: 13.5px;
+line-height: 1.5;
+}
+.step-num {
+min-width: 22px;
+height: 22px;
+border-radius: 6px;
+display: flex; align-items: center; justify-content: center;
+font-size: 11px;
+font-weight: 700;
+font-family: ‘Syne’, sans-serif;
+flex-shrink: 0;
+margin-top: 1px;
+}
+.ext .step-num { background: rgba(240,192,64,0.15); color: var(–ext-color); }
+.hood .step-num { background: rgba(167,139,250,0.15); color: var(–hood-color); }
+.int .step-num { background: rgba(79,209,197,0.15); color: var(–int-color); }
+
+.tip {
+margin-top: 12px;
+padding: 10px 12px;
+border-radius: 8px;
+font-size: 12.5px;
+line-height: 1.5;
+display: flex;
+gap: 8px;
+}
+.tip.ext { background: rgba(240,192,64,0.07); border-left: 3px solid var(–ext-color); color: #c9a830; }
+.tip.hood { background: rgba(167,139,250,0.07); border-left: 3px solid var(–hood-color); color: #b8a0e8; }
+.tip.int { background: rgba(79,209,197,0.07); border-left: 3px solid var(–int-color); color: #3ab8ae; }
+
+/* SECTION */
+.section { display: block; }
+.section.hidden { display: none; }
+
+/* FOOTER */
+.footer-note {
+text-align: center;
+color: var(–muted);
+font-size: 12px;
+margin-top: 40px;
+padding: 0 16px;
+}
+</style>
+
+</head>
+<body>
+
+<div class="hero">
+  <div class="hero-badge">Examen Pratique B</div>
+  <h1>Questions de <span>Sécurité</span><br>du Permis de Conduire</h1>
+  <p>Toutes les questions & réponses officielles pour les 3 vérifications de l'examen pratique.</p>
+  <div class="stats">
+    <div class="stat"><span class="stat-num">3</span><span class="stat-label">catégories</span></div>
+    <div class="stat"><span class="stat-num">32</span><span class="stat-label">questions</span></div>
+    <div class="stat"><span class="stat-num">2+1</span><span class="stat-label">posées à l'examen</span></div>
+  </div>
+</div>
+
+<div class="filter-wrap">
+  <button class="filter-btn active" onclick="filter('all')">Toutes</button>
+  <button class="filter-btn" onclick="filter('ext')"><span class="dot" style="background:#f0c040"></span>Extérieur</button>
+  <button class="filter-btn" onclick="filter('hood')"><span class="dot" style="background:#a78bfa"></span>Sous le capot</button>
+  <button class="filter-btn" onclick="filter('int')"><span class="dot" style="background:#4fd1c5"></span>Intérieur</button>
+</div>
+
+<div class="container">
+
+  <!-- ===================== EXTÉRIEUR ===================== -->
+
+  <div class="section" id="sec-ext">
+    <div class="cat-header">
+      <div class="cat-icon ext">🚗</div>
+      <div class="cat-title ext">Vérifications Extérieures</div>
+      <div class="cat-count">13 questions</div>
+    </div>
+
+```
+<!-- Q1 -->
+<div class="q-card" onclick="toggle(this)">
+  <div class="q-header">
+    <span class="q-num">01</span>
+    <span class="q-text">Comment vérifier l'état des pneumatiques ?</span>
+    <span class="q-chevron">▼</span>
+  </div>
+  <div class="q-answer ext">
+    <p class="answer-intro">Je fais le tour du véhicule et j'inspecte visuellement chaque roue :</p>
+    <ul class="steps">
+      <li><span class="step-num ext">1</span>Je vérifie l'usure des sculptures (les témoins d'usure ne doivent pas être à ras — minimum légal : 1,6 mm).</li>
+      <li><span class="step-num ext">2</span>Je cherche des coupures, déchirures, boursouflures ou corps étrangers (clous, vis) sur le flanc et la bande de roulement.</li>
+      <li><span class="step-num ext">3</span>Je m'assure que les pneus ne sont pas déformés ou sous-gonflés visuellement.</li>
+      <li><span class="step-num ext">4</span>Je vérifie la cohérence des pneus entre eux (pas de mélange de marques ou de structures différentes sur un même essieu).</li>
+    </ul>
+    <div class="tip ext">💡 <span>Les témoins d'usure sont des petits picots moulés au fond des rainures : quand la bande de roulement les atteint, le pneu doit être remplacé.</span></div>
+  </div>
+</div>
+
+<!-- Q2 -->
+<div class="q-card" onclick="toggle(this)">
+  <div class="q-header">
+    <span class="q-num">02</span>
+    <span class="q-text">Comment vérifier la pression des pneumatiques ?</span>
+    <span class="q-chevron">▼</span>
+  </div>
+  <div class="q-answer ext">
+    <ul class="steps">
+      <li><span class="step-num ext">1</span>J'effectue la vérification à froid (avant de rouler ou après moins de 2 km à faible vitesse).</li>
+      <li><span class="step-num ext">2</span>Je dévisse le bouchon de la valve sur chaque roue.</li>
+      <li><span class="step-num ext">3</span>J'applique un manomètre ou j'utilise la borne de gonflage de la station-service.</li>
+      <li><span class="step-num ext">4</span>Je compare la valeur affichée à la pression préconisée par le constructeur (indiquée sur la portière conducteur ou dans le carnet d'entretien).</li>
+      <li><span class="step-num ext">5</span>Je regonfle ou dégonfle si nécessaire, puis remets le bouchon.</li>
+    </ul>
+    <div class="tip ext">💡 <span>La pression recommandée est souvent différente entre l'avant et l'arrière, et augmente légèrement en charge.</span></div>
+  </div>
+</div>
+
+<!-- Q3 -->
+<div class="q-card" onclick="toggle(this)">
+  <div class="q-header">
+    <span class="q-num">03</span>
+    <span class="q-text">Comment vérifier le fonctionnement des feux avant (croisement / route) ?</span>
+    <span class="q-chevron">▼</span>
+  </div>
+  <div class="q-answer ext">
+    <ul class="steps">
+      <li><span class="step-num ext">1</span>Je me place devant le véhicule.</li>
+      <li><span class="step-num ext">2</span>Je demande à quelqu'un (ou j'utilise le reflet d'une vitre / mur) d'allumer les feux de croisement.</li>
+      <li><span class="step-num ext">3</span>Je vérifie que les deux feux s'allument, qu'ils sont de même intensité et bien orientés.</li>
+      <li><span class="step-num ext">4</span>Je répète avec les feux de route et les feux de position.</li>
+    </ul>
+    <div class="tip ext">💡 <span>Seul(e) : mettre le contact, allumer les feux, puis sortir du véhicule pour vérifier.</span></div>
+  </div>
+</div>
+
+<!-- Q4 -->
+<div class="q-card" onclick="toggle(this)">
+  <div class="q-header">
+    <span class="q-num">04</span>
+    <span class="q-text">Comment vérifier le fonctionnement des feux stop ?</span>
+    <span class="q-chevron">▼</span>
+  </div>
+  <div class="q-answer ext">
+    <ul class="steps">
+      <li><span class="step-num ext">1</span>Je me place à l'arrière du véhicule.</li>
+      <li><span class="step-num ext">2</span>Je demande à quelqu'un d'appuyer sur la pédale de frein, ou j'appuie moi-même tout en regardant le reflet dans une vitrine.</li>
+      <li><span class="step-num ext">3</span>Je vérifie que les feux stop (rouge vif) s'allument des deux côtés et que le 3ᵉ feu stop (en haut) fonctionne également.</li>
+    </ul>
+  </div>
+</div>
+
+<!-- Q5 -->
+<div class="q-card" onclick="toggle(this)">
+  <div class="q-header">
+    <span class="q-num">05</span>
+    <span class="q-text">Comment vérifier le fonctionnement des clignotants ?</span>
+    <span class="q-chevron">▼</span>
+  </div>
+  <div class="q-answer ext">
+    <ul class="steps">
+      <li><span class="step-num ext">1</span>Je mets le contact et j'active le clignotant droit.</li>
+      <li><span class="step-num ext">2</span>Je sors du véhicule et vérifie que le feu avant et le feu arrière droit clignotent simultanément.</li>
+      <li><span class="step-num ext">3</span>Je répète avec le clignotant gauche.</li>
+      <li><span class="step-num ext">4</span>Je vérifie aussi les feux de détresse (4 clignotants ensemble).</li>
+    </ul>
+    <div class="tip ext">💡 <span>Un clignotant qui bat trop vite indique une ampoule grillée.</span></div>
+  </div>
+</div>
+
+<!-- Q6 -->
+<div class="q-card" onclick="toggle(this)">
+  <div class="q-header">
+    <span class="q-num">06</span>
+    <span class="q-text">Comment vérifier l'état des balais essuie-glaces ?</span>
+    <span class="q-chevron">▼</span>
+  </div>
+  <div class="q-answer ext">
+    <ul class="steps">
+      <li><span class="step-num ext">1</span>Je soulève chaque balai et inspecte la lame en caoutchouc : elle ne doit pas être craquelée, rigidifiée ou décollée.</li>
+      <li><span class="step-num ext">2</span>Je passe le doigt sur le bord de la lame : il doit être souple et bien tranchant.</li>
+      <li><span class="step-num ext">3</span>Je vérifie que le balai est bien fixé au bras (pas de jeu).</li>
+      <li><span class="step-num ext">4</span>En fonctionnement : j'active les essuie-glaces et observe qu'ils balaient uniformément sans laisser de zébrures.</li>
+    </ul>
+  </div>
+</div>
+
+<!-- Q7 -->
+<div class="q-card" onclick="toggle(this)">
+  <div class="q-header">
+    <span class="q-num">07</span>
+    <span class="q-text">Comment vérifier le niveau du liquide lave-glace ?</span>
+    <span class="q-chevron">▼</span>
+  </div>
+  <div class="q-answer ext">
+    <ul class="steps">
+      <li><span class="step-num ext">1</span>J'ouvre le capot et je localise le réservoir de lave-glace (bouchon bleu avec symbole de gicleur).</li>
+      <li><span class="step-num ext">2</span>Je vérifie le niveau : il doit se trouver entre les repères MIN et MAX sur le réservoir transparent, ou au moins à mi-hauteur.</li>
+      <li><span class="step-num ext">3</span>Si besoin, je complète avec un liquide lave-glace adapté (antigel en hiver).</li>
+    </ul>
+    <div class="tip ext">💡 <span>Ne jamais mettre d'eau pure : cela peut geler en hiver et endommager le système.</span></div>
+  </div>
+</div>
+
+<!-- Q8 -->
+<div class="q-card" onclick="toggle(this)">
+  <div class="q-header">
+    <span class="q-num">08</span>
+    <span class="q-text">Comment vérifier le réglage des rétroviseurs extérieurs ?</span>
+    <span class="q-chevron">▼</span>
+  </div>
+  <div class="q-answer ext">
+    <ul class="steps">
+      <li><span class="step-num ext">1</span>Je m'installe correctement en position de conduite (siège réglé, dos bien calé).</li>
+      <li><span class="step-num ext">2</span>Pour le rétroviseur gauche : je dois voir légèrement le flanc de la voiture et principalement la route derrière moi.</li>
+      <li><span class="step-num ext">3</span>Pour le rétroviseur droit : idem, avec une légère vue du flanc droit.</li>
+      <li><span class="step-num ext">4</span>Je règle à l'aide du bouton électrique intérieur ou manuellement. Il ne doit pas y avoir d'angle mort important entre les deux rétroviseurs et le rétroviseur intérieur.</li>
+    </ul>
+  </div>
+</div>
+
+<!-- Q9 -->
+<div class="q-card" onclick="toggle(this)">
+  <div class="q-header">
+    <span class="q-num">09</span>
+    <span class="q-text">Comment vérifier l'état du pare-brise et des vitres ?</span>
+    <span class="q-chevron">▼</span>
+  </div>
+  <div class="q-answer ext">
+    <p class="answer-intro">Je fais le tour complet du véhicule en observant toutes les surfaces vitrées :</p>
+    <ul class="steps">
+      <li><span class="step-num ext">1</span>J'inspecte le pare-brise : il ne doit pas présenter de fissure, éclat ou impact dans le champ de vision du conducteur (zone d'essuyage).</li>
+      <li><span class="step-num ext">2</span>Un impact de moins d'1 cm hors champ de vision peut être accepté, mais tout impact dans le champ d'essuyage est rédhibitoire au contrôle technique.</li>
+      <li><span class="step-num ext">3</span>Je vérifie les vitres latérales et la lunette arrière : pas de fissures, pas de film teinté illégal (opacité &gt; 70% à l'avant).</li>
+      <li><span class="step-num ext">4</span>Je m'assure que les joints d'étanchéité autour des vitres sont en bon état (pas décollés ni poreux).</li>
+    </ul>
+    <div class="tip ext">💡 <span>Un impact sur le pare-brise se répare rapidement par injection de résine — à faire avant qu'il ne se transforme en fissure.</span></div>
+  </div>
+</div>
+
+<!-- Q10 -->
+<div class="q-card" onclick="toggle(this)">
+  <div class="q-header">
+    <span class="q-num">10</span>
+    <span class="q-text">Comment vérifier l'état des catadioptres (réflecteurs) ?</span>
+    <span class="q-chevron">▼</span>
+  </div>
+  <div class="q-answer ext">
+    <p class="answer-intro">Les catadioptres sont les réflecteurs passifs qui renvoient la lumière sans source d'énergie.</p>
+    <ul class="steps">
+      <li><span class="step-num ext">1</span>Je me place à l'arrière du véhicule et j'inspecte les catadioptres rouges (obligatoires à l'arrière, de chaque côté).</li>
+      <li><span class="step-num ext">2</span>Je vérifie qu'ils ne sont pas fissurés, opaques (jaunes/ternis) ou manquants.</li>
+      <li><span class="step-num ext">3</span>Je vérifie aussi les éventuels catadioptres latéraux oranges (présents sur certains véhicules) et les catadioptres blancs à l'avant.</li>
+      <li><span class="step-num ext">4</span>Je m'assure qu'ils sont propres et bien fixés sur la carrosserie.</li>
+    </ul>
+    <div class="tip ext">💡 <span>Un catadioptre cassé ou absent est un défaut majeur au contrôle technique — il doit être remplacé immédiatement.</span></div>
+  </div>
+</div>
+
+<!-- Q11 -->
+<div class="q-card" onclick="toggle(this)">
+  <div class="q-header">
+    <span class="q-num">11</span>
+    <span class="q-text">Comment vérifier l'état de la carrosserie et des fixations ?</span>
+    <span class="q-chevron">▼</span>
+  </div>
+  <div class="q-answer ext">
+    <ul class="steps">
+      <li><span class="step-num ext">1</span>Je fais le tour du véhicule et observe les panneaux de carrosserie : absence de rouille perforante, de bords tranchants ou d'éléments désolidarisés.</li>
+      <li><span class="step-num ext">2</span>Je vérifie que les portes, le capot et le coffre ferment et s'ouvrent correctement.</li>
+      <li><span class="step-num ext">3</span>Je contrôle les pare-chocs : ils doivent être solidement fixés, sans déformation menaçant les piétons.</li>
+      <li><span class="step-num ext">4</span>Je m'assure que la plaque d'immatriculation (avant et arrière) est présente, lisible et correctement fixée.</li>
+    </ul>
+    <div class="tip ext">💡 <span>Tout élément de carrosserie saillant ou tranchant est dangereux pour les piétons — c'est un motif d'immobilisation du véhicule.</span></div>
+  </div>
+</div>
+
+<!-- Q12 -->
+<div class="q-card" onclick="toggle(this)">
+  <div class="q-header">
+    <span class="q-num">12</span>
+    <span class="q-text">Comment vérifier le fonctionnement des feux de recul et de brouillard ?</span>
+    <span class="q-chevron">▼</span>
+  </div>
+  <div class="q-answer ext">
+    <ul class="steps">
+      <li><span class="step-num ext">1</span><strong>Feux de recul (blancs) :</strong> Je passe la marche arrière (contact mis) et vérifie depuis l'arrière qu'ils s'allument.</li>
+      <li><span class="step-num ext">2</span><strong>Antibrouillard arrière (rouge vif, 1 ou 2) :</strong> Je l'active via le commutateur et vérifie depuis l'arrière qu'il fonctionne.</li>
+      <li><span class="step-num ext">3</span><strong>Antibrouillard avant (jaune/blanc) :</strong> Je l'active et vérifie depuis l'avant.</li>
+      <li><span class="step-num ext">4</span>Je m'assure que le témoin correspondant s'allume bien au tableau de bord à chaque activation.</li>
+    </ul>
+    <div class="tip ext">💡 <span>L'antibrouillard arrière ne s'utilise qu'en cas de brouillard ou de précipitations intenses (visibilité &lt; 50 m) — l'allumer par beau temps éblouit les conducteurs derrière vous.</span></div>
+  </div>
+</div>
+
+<!-- Q13 -->
+<div class="q-card" onclick="toggle(this)">
+  <div class="q-header">
+    <span class="q-num">13</span>
+    <span class="q-text">Comment vérifier l'état des amortisseurs ?</span>
+    <span class="q-chevron">▼</span>
+  </div>
+  <div class="q-answer ext">
+    <ul class="steps">
+      <li><span class="step-num ext">1</span>J'appuie fortement sur chaque coin du véhicule (aile avant ou arrière) et je relâche.</li>
+      <li><span class="step-num ext">2</span>La voiture doit revenir à sa position initiale en 1 à 2 oscillations maximum et s'arrêter net.</li>
+      <li><span class="step-num ext">3</span>Si elle continue d'osciller plusieurs fois, l'amortisseur est défaillant.</li>
+      <li><span class="step-num ext">4</span>Je vérifie aussi visuellement l'absence de fuite d'huile sur le corps de l'amortisseur.</li>
+    </ul>
+    <div class="tip ext">💡 <span>Des amortisseurs usés augmentent la distance de freinage et réduisent l'adhérence en virage — à changer par paires.</span></div>
+  </div>
+</div>
+```
+
+  </div><!-- /sec-ext -->
+
+  <!-- ===================== SOUS LE CAPOT ===================== -->
+
+  <div class="section" id="sec-hood">
+    <div class="cat-header">
+      <div class="cat-icon hood">🔧</div>
+      <div class="cat-title hood">Vérifications sous le Capot</div>
+      <div class="cat-count">9 questions</div>
+    </div>
+
+```
+<!-- Q14 -->
+<div class="q-card" onclick="toggle(this)">
+  <div class="q-header">
+    <span class="q-num">14</span>
+    <span class="q-text">Comment vérifier le niveau d'huile moteur ?</span>
+    <span class="q-chevron">▼</span>
+  </div>
+  <div class="q-answer hood">
+    <p class="answer-intro">La vérification se fait moteur froid (ou 5 min après extinction), véhicule à plat.</p>
+    <ul class="steps">
+      <li><span class="step-num hood">1</span>J'ouvre le capot et je retire la jauge à huile (tige jaune ou orange avec anneau).</li>
+      <li><span class="step-num hood">2</span>J'essuie la jauge avec un chiffon propre et je la réintroduis entièrement.</li>
+      <li><span class="step-num hood">3</span>Je la retire à nouveau et je lis le niveau : il doit se trouver entre les repères MIN et MAX.</li>
+      <li><span class="step-num hood">4</span>Si le niveau est proche du MIN, j'ajoute de l'huile moteur préconisée par le constructeur via le bouchon de remplissage (symbole huilier).</li>
+    </ul>
+    <div class="tip hood">💡 <span>Ne jamais dépasser le MAX — trop d'huile est aussi néfaste que pas assez.</span></div>
+  </div>
+</div>
+
+<!-- Q15 -->
+<div class="q-card" onclick="toggle(this)">
+  <div class="q-header">
+    <span class="q-num">15</span>
+    <span class="q-text">Comment vérifier le niveau du liquide de refroidissement ?</span>
+    <span class="q-chevron">▼</span>
+  </div>
+  <div class="q-answer hood">
+    <p class="answer-intro">⚠️ Toujours effectuer cette vérification moteur FROID pour éviter tout risque de brûlure.</p>
+    <ul class="steps">
+      <li><span class="step-num hood">1</span>Je repère le vase d'expansion (réservoir translucide avec bouchon généralement rouge ou noir, souvent marqué d'un symbole thermomètre).</li>
+      <li><span class="step-num hood">2</span>Je vérifie visuellement que le niveau se situe entre les repères MIN et MAX.</li>
+      <li><span class="step-num hood">3</span>Si nécessaire, je dévisse doucement le bouchon (moteur froid) et j'ajoute du liquide de refroidissement préconisé (mélange eau + antigel).</li>
+    </ul>
+    <div class="tip hood">💡 <span>Le liquide de refroidissement est généralement coloré (vert, rose ou bleu). Ne jamais ouvrir le bouchon moteur chaud : risque de projection de liquide brûlant.</span></div>
+  </div>
+</div>
+
+<!-- Q16 -->
+<div class="q-card" onclick="toggle(this)">
+  <div class="q-header">
+    <span class="q-num">16</span>
+    <span class="q-text">Comment vérifier le niveau du liquide de frein ?</span>
+    <span class="q-chevron">▼</span>
+  </div>
+  <div class="q-answer hood">
+    <ul class="steps">
+      <li><span class="step-num hood">1</span>Je localise le réservoir de liquide de frein (bouchon jaune avec symbole de cercle + point, près de la pedale de frein côté moteur).</li>
+      <li><span class="step-num hood">2</span>Je vérifie visuellement le niveau à travers la paroi transparente : il doit être entre MIN et MAX.</li>
+      <li><span class="step-num hood">3</span>Un niveau bas peut signaler une fuite ou des plaquettes très usées — il faut alors faire contrôler par un professionnel.</li>
+    </ul>
+    <div class="tip hood">💡 <span>Le liquide de frein est hygroscopique : il absorbe l'humidité avec le temps et doit être changé périodiquement (tous les 2 ans environ).</span></div>
+  </div>
+</div>
+
+<!-- Q17 -->
+<div class="q-card" onclick="toggle(this)">
+  <div class="q-header">
+    <span class="q-num">17</span>
+    <span class="q-text">Comment vérifier le niveau du liquide de direction assistée ?</span>
+    <span class="q-chevron">▼</span>
+  </div>
+  <div class="q-answer hood">
+    <ul class="steps">
+      <li><span class="step-num hood">1</span>Je localise le réservoir de direction assistée hydraulique (si le véhicule en est équipé — souvent absent sur les voitures récentes avec direction électrique).</li>
+      <li><span class="step-num hood">2</span>Je vérifie le niveau sur la jauge intégrée au bouchon ou sur les repères MIN/MAX du réservoir.</li>
+      <li><span class="step-num hood">3</span>Si bas, j'ajoute le fluide recommandé par le constructeur.</li>
+    </ul>
+    <div class="tip hood">💡 <span>Si votre voiture a une direction assistée électrique, il n'y a pas de liquide à vérifier.</span></div>
+  </div>
+</div>
+
+<!-- Q18 -->
+<div class="q-card" onclick="toggle(this)">
+  <div class="q-header">
+    <span class="q-num">18</span>
+    <span class="q-text">Comment localiser la batterie et vérifier son état ?</span>
+    <span class="q-chevron">▼</span>
+  </div>
+  <div class="q-answer hood">
+    <ul class="steps">
+      <li><span class="step-num hood">1</span>Je localise la batterie (souvent dans le compartiment moteur, parfois dans le coffre ou sous une banquette).</li>
+      <li><span class="step-num hood">2</span>Je vérifie visuellement que les bornes (+) rouge et (-) noire ne sont pas oxydées (dépôt blanc/bleu).</li>
+      <li><span class="step-num hood">3</span>Je m'assure que les cosses sont bien serrées et qu'il n'y a pas de fissures sur le boîtier.</li>
+      <li><span class="step-num hood">4</span>Un test complet se fait avec un voltmètre (12,6 V environ à l'arrêt) ou chez un garagiste.</li>
+    </ul>
+    <div class="tip hood">💡 <span>Des bornes oxydées peuvent s'entretenir avec de la graisse spéciale bornes ou du bicarbonate de soude dilué.</span></div>
+  </div>
+</div>
+
+<!-- Q19 -->
+<div class="q-card" onclick="toggle(this)">
+  <div class="q-header">
+    <span class="q-num">19</span>
+    <span class="q-text">Que signifie le témoin lumineux d'huile sur le tableau de bord ?</span>
+    <span class="q-chevron">▼</span>
+  </div>
+  <div class="q-answer hood">
+    <ul class="steps">
+      <li><span class="step-num hood">1</span>Ce témoin (symbole huilier rouge) s'allume si la pression d'huile est insuffisante.</li>
+      <li><span class="step-num hood">2</span>S'il s'allume en roulant : je m'arrête immédiatement en sécurité, je coupe le moteur et je vérifie le niveau d'huile.</li>
+      <li><span class="step-num hood">3</span>Continuer à rouler risque de provoquer un grippage moteur irréparable.</li>
+    </ul>
+    <div class="tip hood">💡 <span>À ne pas confondre avec le témoin orange de maintenance (clé à molette) qui indique juste qu'une révision est prochaine.</span></div>
+  </div>
+</div>
+
+<!-- Q20 -->
+<div class="q-card" onclick="toggle(this)">
+  <div class="q-header">
+    <span class="q-num">20</span>
+    <span class="q-text">Que signifie le témoin de température moteur ?</span>
+    <span class="q-chevron">▼</span>
+  </div>
+  <div class="q-answer hood">
+    <ul class="steps">
+      <li><span class="step-num hood">1</span>Ce témoin (thermomètre rouge dans un liquide) signale une surchauffe du moteur.</li>
+      <li><span class="step-num hood">2</span>Je m'arrête rapidement, coupe le moteur et laisse refroidir avant d'ouvrir le capot.</li>
+      <li><span class="step-num hood">3</span>Après refroidissement, je vérifie le niveau de liquide de refroidissement.</li>
+      <li><span class="step-num hood">4</span>Si le problème persiste, je fais appel à un professionnel avant de repartir.</li>
+    </ul>
+  </div>
+</div>
+
+<!-- Q21 -->
+<div class="q-card" onclick="toggle(this)">
+  <div class="q-header">
+    <span class="q-num">21</span>
+    <span class="q-text">Comment vérifier le niveau du liquide de boîte de vitesses / transmission ?</span>
+    <span class="q-chevron">▼</span>
+  </div>
+  <div class="q-answer hood">
+    <ul class="steps">
+      <li><span class="step-num hood">1</span>Sur les boîtes automatiques : je localise la jauge de boîte (souvent rouge), moteur chaud et tournant au ralenti, et je lis le niveau entre MIN et MAX.</li>
+      <li><span class="step-num hood">2</span>Sur les boîtes manuelles : la vérification se fait généralement lors d'une révision en garage (pas de jauge accessible).</li>
+      <li><span class="step-num hood">3</span>Je surveille toute trace de fuite sous le véhicule (tache rouge ou brune = liquide de transmission).</li>
+    </ul>
+    <div class="tip hood">💡 <span>Sur de nombreux véhicules modernes, la boîte automatique est dite "remplie à vie" — mais des fuites restent possibles.</span></div>
+  </div>
+</div>
+
+<!-- Q22 -->
+<div class="q-card" onclick="toggle(this)">
+  <div class="q-header">
+    <span class="q-num">22</span>
+    <span class="q-text">Comment vérifier l'état des courroies visibles sous le capot ?</span>
+    <span class="q-chevron">▼</span>
+  </div>
+  <div class="q-answer hood">
+    <ul class="steps">
+      <li><span class="step-num hood">1</span>Moteur éteint et refroidi, j'observe la courroie d'accessoires (alternateur, climatisation, direction).</li>
+      <li><span class="step-num hood">2</span>Je vérifie qu'elle n'est pas effilochée, fissurée, huileuse ou trop détendue.</li>
+      <li><span class="step-num hood">3</span>Je m'assure qu'elle est bien en place sur toutes les poulies.</li>
+      <li><span class="step-num hood">4</span>La courroie de distribution n'est pas toujours visible — sa vérification est à effectuer selon le kilométrage préconisé par le constructeur.</li>
+    </ul>
+    <div class="tip hood">💡 <span>Une courroie de distribution cassée peut provoquer une destruction totale du moteur — respectez impérativement les intervalles de remplacement.</span></div>
+  </div>
+</div>
+```
+
+  </div><!-- /sec-hood -->
+
+  <!-- ===================== INTÉRIEUR ===================== -->
+
+  <div class="section" id="sec-int">
+    <div class="cat-header">
+      <div class="cat-icon int">🪟</div>
+      <div class="cat-title int">Vérifications Intérieures</div>
+      <div class="cat-count">10 questions</div>
+    </div>
+
+```
+<!-- Q23 -->
+<div class="q-card" onclick="toggle(this)">
+  <div class="q-header">
+    <span class="q-num">23</span>
+    <span class="q-text">Comment vérifier l'efficacité du freinage ?</span>
+    <span class="q-chevron">▼</span>
+  </div>
+  <div class="q-answer int">
+    <ul class="steps">
+      <li><span class="step-num int">1</span>Lors d'un démarrage à basse vitesse (parking privé), j'appuie franchement sur la pédale de frein.</li>
+      <li><span class="step-num int">2</span>La pédale doit être ferme et résistante — elle ne doit pas s'enfoncer jusqu'au plancher (mou = problème de circuit).</li>
+      <li><span class="step-num int">3</span>Le véhicule doit s'arrêter rapidement et en ligne droite, sans tirer d'un côté.</li>
+      <li><span class="step-num int">4</span>Je vérifie également que le témoin de frein ne s'allume pas de façon anormale.</li>
+    </ul>
+    <div class="tip int">💡 <span>En cas de pédale molle ou spongieuse, cela peut indiquer la présence d'air dans le circuit de freinage — à faire purger impérativement.</span></div>
+  </div>
+</div>
+
+<!-- Q24 -->
+<div class="q-card" onclick="toggle(this)">
+  <div class="q-header">
+    <span class="q-num">24</span>
+    <span class="q-text">Comment vérifier le frein de stationnement (frein à main) ?</span>
+    <span class="q-chevron">▼</span>
+  </div>
+  <div class="q-answer int">
+    <ul class="steps">
+      <li><span class="step-num int">1</span>Je tire le frein à main (ou j'active le frein électrique) et je vérifie que le témoin rouge s'allume sur le tableau de bord.</li>
+      <li><span class="step-num int">2</span>Sur une côte légère, je relâche la pédale de frein : le véhicule ne doit pas se déplacer.</li>
+      <li><span class="step-num int">3</span>Pour un frein à main traditionnel : le levier ne doit pas monter trop haut (signe de câbles détendus).</li>
+    </ul>
+  </div>
+</div>
+
+<!-- Q25 -->
+<div class="q-card" onclick="toggle(this)">
+  <div class="q-header">
+    <span class="q-num">25</span>
+    <span class="q-text">Comment vérifier le jeu de direction ?</span>
+    <span class="q-chevron">▼</span>
+  </div>
+  <div class="q-answer int">
+    <ul class="steps">
+      <li><span class="step-num int">1</span>Moteur allumé, roues droites, je tourne légèrement le volant à gauche puis à droite.</li>
+      <li><span class="step-num int">2</span>Un léger jeu est normal, mais si le volant tourne sans que les roues ne réagissent sur plus de 3-4 cm de débattement, c'est anormal.</li>
+      <li><span class="step-num int">3</span>Je vérife également que la direction ne fait pas de bruit anormal ni de vibrations.</li>
+    </ul>
+    <div class="tip int">💡 <span>Un jeu excessif peut indiquer une usure des rotules de direction ou des biellettes — à contrôler en garage.</span></div>
+  </div>
+</div>
+
+<!-- Q26 -->
+<div class="q-card" onclick="toggle(this)">
+  <div class="q-header">
+    <span class="q-num">26</span>
+    <span class="q-text">Comment régler correctement le siège conducteur ?</span>
+    <span class="q-chevron">▼</span>
+  </div>
+  <div class="q-answer int">
+    <ul class="steps">
+      <li><span class="step-num int">1</span>Je règle la distance longitudinale : les jambes légèrement fléchies avec la pédale d'embrayage complètement enfoncée.</li>
+      <li><span class="step-num int">2</span>Je règle le dossier : bras légèrement fléchis avec les mains à 9h15 sur le volant, épaules au contact du dossier.</li>
+      <li><span class="step-num int">3</span>Je règle la hauteur si possible : les yeux doivent être au-dessus du centre du volant.</li>
+      <li><span class="step-num int">4</span>Je règle l'appuie-tête : le centre doit être au niveau des yeux ou légèrement en dessous.</li>
+    </ul>
+  </div>
+</div>
+
+<!-- Q27 -->
+<div class="q-card" onclick="toggle(this)">
+  <div class="q-header">
+    <span class="q-num">27</span>
+    <span class="q-text">Comment vérifier le bon fonctionnement de la ceinture de sécurité ?</span>
+    <span class="q-chevron">▼</span>
+  </div>
+  <div class="q-answer int">
+    <ul class="steps">
+      <li><span class="step-num int">1</span>Je tire la ceinture d'un coup sec : elle doit se bloquer immédiatement (mécanisme d'inertie).</li>
+      <li><span class="step-num int">2</span>Je vérifie que la sangle n'est pas effilochée, tordue ou abîmée.</li>
+      <li><span class="step-num int">3</span>Je m'assure que le système d'enroulement fonctionne (la sangle se rembobine seule).</li>
+      <li><span class="step-num int">4</span>Je clique le fermoir et vérifie qu'il se déverrouille bien d'une pression sur le bouton rouge.</li>
+    </ul>
+    <div class="tip int">💡 <span>Une ceinture déployée lors d'un accident doit toujours être remplacée, même si elle semble intacte.</span></div>
+  </div>
+</div>
+
+<!-- Q28 -->
+<div class="q-card" onclick="toggle(this)">
+  <div class="q-header">
+    <span class="q-num">28</span>
+    <span class="q-text">Comment vérifier le dégivrage / désembuage de la lunette arrière ?</span>
+    <span class="q-chevron">▼</span>
+  </div>
+  <div class="q-answer int">
+    <ul class="steps">
+      <li><span class="step-num int">1</span>J'active le dégivrage arrière (bouton avec symbole de vitre + flèches).</li>
+      <li><span class="step-num int">2</span>Je vérifie que le témoin s'allume sur le tableau de bord.</li>
+      <li><span class="step-num int">3</span>Après quelques minutes, je touche légèrement la lunette arrière : elle doit être tiède, signe que les filaments chauffants fonctionnent.</li>
+      <li><span class="step-num int">4</span>Visuellement, les filaments (lignes horizontales) ne doivent pas être coupés.</li>
+    </ul>
+  </div>
+</div>
+
+<!-- Q29 -->
+<div class="q-card" onclick="toggle(this)">
+  <div class="q-header">
+    <span class="q-num">29</span>
+    <span class="q-text">Que signifie le témoin de frein rouge sur le tableau de bord ?</span>
+    <span class="q-chevron">▼</span>
+  </div>
+  <div class="q-answer int">
+    <ul class="steps">
+      <li><span class="step-num int">1</span>Ce témoin (point d'exclamation dans un cercle ou "BRAKE") s'allume normalement quand le frein à main est serré.</li>
+      <li><span class="step-num int">2</span>S'il reste allumé frein à main desserré : cela peut signaler un niveau de liquide de frein insuffisant ou une anomalie du circuit.</li>
+      <li><span class="step-num int">3</span>Dans ce cas, je m'arrête en sécurité et fais appel à un professionnel avant de continuer.</li>
+    </ul>
+    <div class="tip int">💡 <span>À distinguer du témoin ABS (orange) qui indique un dysfonctionnement du système antiblocage des roues.</span></div>
+  </div>
+</div>
+
+<!-- Q30 -->
+<div class="q-card" onclick="toggle(this)">
+  <div class="q-header">
+    <span class="q-num">30</span>
+    <span class="q-text">Comment vérifier le bon fonctionnement du klaxon ?</span>
+    <span class="q-chevron">▼</span>
+  </div>
+  <div class="q-answer int">
+    <ul class="steps">
+      <li><span class="step-num int">1</span>Je m'assure que le véhicule est dans un endroit approprié (pas en zone silencieuse ou de nuit).</li>
+      <li><span class="step-num int">2</span>J'appuie brièvement sur le centre du volant (ou sur le bouton dédié).</li>
+      <li><span class="step-num int">3</span>Le klaxon doit émettre un son fort et clair, sans grésiller ni sonner faiblement.</li>
+    </ul>
+    <div class="tip int">💡 <span>Le klaxon est obligatoire et son absence ou mauvais fonctionnement est un défaut au contrôle technique.</span></div>
+  </div>
+</div>
+
+<!-- Q31 -->
+<div class="q-card" onclick="toggle(this)">
+  <div class="q-header">
+    <span class="q-num">31</span>
+    <span class="q-text">Comment vérifier le bon fonctionnement du rétroviseur intérieur ?</span>
+    <span class="q-chevron">▼</span>
+  </div>
+  <div class="q-answer int">
+    <ul class="steps">
+      <li><span class="step-num int">1</span>Je m'installe en position de conduite (siège correctement réglé).</li>
+      <li><span class="step-num int">2</span>Je règle le rétroviseur intérieur pour avoir une vue maximale sur la lunette arrière sans bouger la tête.</li>
+      <li><span class="step-num int">3</span>Je vérifie que la glace n'est pas fissurée, ni obscurcie, ni décollée de son support.</li>
+      <li><span class="step-num int">4</span>Je teste la fonction anti-éblouissement (position nuit) si disponible.</li>
+    </ul>
+    <div class="tip int">💡 <span>Le rétroviseur intérieur, combiné aux deux rétroviseurs extérieurs, doit couvrir un angle de vision arrière le plus large possible — il ne doit pas y avoir de zone aveugle non compensée.</span></div>
+  </div>
+</div>
+
+<!-- Q32 -->
+<div class="q-card" onclick="toggle(this)">
+  <div class="q-header">
+    <span class="q-num">32</span>
+    <span class="q-text">Comment vérifier le témoin de pression des pneus (TPMS) ?</span>
+    <span class="q-chevron">▼</span>
+  </div>
+  <div class="q-answer int">
+    <ul class="steps">
+      <li><span class="step-num int">1</span>Au démarrage, le témoin TPMS (pictogramme de pneu avec point d'exclamation) s'allume brièvement lors de l'autodiagnostic — c'est normal.</li>
+      <li><span class="step-num int">2</span>S'il reste allumé en roulant, cela signale qu'un ou plusieurs pneus sont sous-gonflés.</li>
+      <li><span class="step-num int">3</span>Je gonfle le(s) pneu(s) à la pression recommandée — le témoin s'éteint généralement après quelques kilomètres.</li>
+      <li><span class="step-num int">4</span>Si le témoin clignote pendant 60 à 90 secondes puis reste allumé, c'est un dysfonctionnement du capteur à faire vérifier.</li>
+    </ul>
+    <div class="tip int">💡 <span>Obligatoire sur tous les véhicules neufs depuis 2014 en Europe — ce système permet de détecter une crevaison lente avant qu'elle ne devienne dangereuse.</span></div>
+  </div>
+</div>
+```
+
+  </div><!-- /sec-int -->
+
+  <div class="footer-note">
+    📋 À l'examen, l'inspecteur pose <strong>2 questions hors du véhicule</strong> et <strong>1 question à l'intérieur</strong> (ou l'inverse). Montrez le geste en même temps que vous expliquez !
+  </div>
+
+</div><!-- /container -->
+
+<script>
+  function toggle(card) {
+    card.classList.toggle('open');
+  }
+
+  function filter(cat) {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    event.target.classList.add('active');
+
+    const sections = { ext: 'sec-ext', hood: 'sec-hood', int: 'sec-int' };
+    if (cat === 'all') {
+      Object.values(sections).forEach(id => {
+        document.getElementById(id).classList.remove('hidden');
+      });
+    } else {
+      Object.entries(sections).forEach(([key, id]) => {
+        const el = document.getElementById(id);
+        key === cat ? el.classList.remove('hidden') : el.classList.add('hidden');
+      });
+    }
+  }
+</script>
+
+</body>
+</html>
